@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Step 3: Build Stage
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Linting Stage
+      - name: Run ESLint
+        run: |
+          npm install eslint --save-dev
+          npx eslint .
+
+      # Step 5: Security Scan Stage
+      - name: Run npm audit
+        run: npm audit --audit-level=low
+
+      # Step 6: Test Stage (placeholder)
+      - name: Run tests (placeholder)
+        run: echo "No tests yet"
