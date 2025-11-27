@@ -1,10 +1,13 @@
-function handler() {
-  return "Hello from CI Pipeline!";
+function handler(    ) 
+{
+console.log("Starting handler")
+    return "Hello from broken code"
 }
 
-function newFeature() {
-  return "New feature added!";
+function newFeature( ) {
+return 42
+    console.log("This will never run")
 }
 
-console.log(handler());
-console.log(newFeature);
+console.log(  handler( ) )
+console.log(newFeature( ) )
