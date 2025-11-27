@@ -1,40 +1,33 @@
-name: CI Pipeline
+name: CI Pipeline  # CI workflow name
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]  # Run CI on push to main
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ]  # Run CI on PR to main
 
 jobs:
-  ci-checks:
-    runs-on: ubuntu-latest
+  build:
+    name: Build, Lint, and Test  # Status check name
+    runs-on: ubuntu-latest       # Use Ubuntu runner
 
     steps:
-      # Step 1: Checkout Code
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3  # Get project files
 
-      # Step 2: Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3  # Install Node.js
         with:
-          node-version: "20"
+          node-version: 18  # Node version
 
-      # Step 3: Build Stage
       - name: Install dependencies
-        run: npm install
+        run: npm install  # Install npm packages
 
-      # Step 4: Linting Stage
-      - name: Run ESLint
-        run: |
-          npm install eslint --save-dev
-          npx eslint .
+      - name: Check formatting
+        run: npm run format:check  # Run Prettier check
 
-      # Step 5: Security Scan Stage
-      - name: Run npm audit
-        run: npm audit --audit-level=low
+      - name: Lint code
+        run: npm run lint  # Run ESLint
 
-      # Step 6: Test Stage (placeholder)
-      - name: Run tests (placeholder)
-        run: echo "No tests yet"
+      - name: Run tests
+        run: npm test  # Execute tests
